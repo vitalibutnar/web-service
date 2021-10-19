@@ -1,5 +1,6 @@
 package com.endava.webservice.controllers;
 
+import com.endava.webservice.exeption.DataBaseConnectionException;
 import com.endava.webservice.exeption.IllegalFieldValueException;
 import com.endava.webservice.exeption.NoDataFoundException;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,11 @@ public class RestExceptionController {
 
     @ExceptionHandler(IllegalFieldValueException.class)
     public ResponseEntity<Map<String, String>> validationExceptions(IllegalFieldValueException exception) {
+        return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(DataBaseConnectionException.class)
+    public ResponseEntity<Map<String, String>> databaseConnectionException(DataBaseConnectionException exception) {
         return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
