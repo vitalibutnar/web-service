@@ -7,34 +7,42 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Departments")
+@Entity(name = "departments")
+@Table(name = "departments")
 public class Department {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(
+            name = "departments_seq",
+            sequenceName = "departments_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "departments_seq"
+    )
+    @Column(name = "department_id")
     private long departmentId;
 
-    @NotNull(message = "Department name can not be null")
-    @NotEmpty(message = "Department name can not be empty")
-    @NotBlank(message = "Department name can not be blank")
-    @Column(nullable = false)
+    @NotBlank(message = "Department name can not be null/empty/blank")
+    @Column(nullable = false, name = "department_name")
     private String departmentName;
 
+    @Column(name = "manager_id")
     private Long managerId;
 
-    @NotNull(message = "Department location can not be null")
-    @NotEmpty(message = "Department location can not be empty")
-    @NotBlank(message = "Department location can not be blank")
-    @Column(nullable = false)
+    @NotBlank(message = "Department location can not be null/empty/blank")
+    @Column(nullable = false, name = "location")
     private String location;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "location_id")
     private Long locationId;
 }

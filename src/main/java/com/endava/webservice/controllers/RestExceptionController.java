@@ -1,5 +1,7 @@
 package com.endava.webservice.controllers;
 
+import com.endava.webservice.exeption.HibernateInitializationException;
+import com.endava.webservice.exeption.HibernateTransactionException;
 import com.endava.webservice.exeption.IllegalFieldValueException;
 import com.endava.webservice.exeption.NoDataFoundException;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,16 @@ public class RestExceptionController {
     @ExceptionHandler(IllegalFieldValueException.class)
     public ResponseEntity<Map<String, String>> validationExceptions(IllegalFieldValueException exception) {
         return getErrorResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(HibernateInitializationException.class)
+    public ResponseEntity<Map<String, String>> hibernateExceptions(HibernateInitializationException exception) {
+        return getErrorResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+    }
+
+    @ExceptionHandler(HibernateTransactionException.class)
+    public ResponseEntity<Map<String, String>> hibernateExceptions(HibernateTransactionException exception) {
+        return getErrorResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
     }
 
     private ResponseEntity<Map<String, String>> getErrorResponseEntity(HttpStatus code, String message) {
