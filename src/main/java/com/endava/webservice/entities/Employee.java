@@ -1,50 +1,50 @@
 package com.endava.webservice.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
+@Builder
 @Entity(name = "Employees")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Employee {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(
+            name = "employees_seq",
+            sequenceName = "employees_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "employees_seq"
+    )
     private long employeeId;
 
-    @NotNull(message = "Employee firstname can not be null")
-    @NotEmpty(message = "Employee firstname can not be empty")
-    @NotBlank(message = "Employee firstname can not be blank")
+    @NotBlank(message = "Employee firstname can not be null/empty/blank")
     @Column(nullable = false)
     private String firstName;
 
-    @NotNull(message = "Employee lastname can not be null")
-    @NotEmpty(message = "Employee lastname can not be empty")
-    @NotBlank(message = "Employee lastname can not be blank")
+    @NotBlank(message = "Employee lastname can not be null/empty/blank")
     @Column(nullable = false)
     private String lastName;
 
-
-    @NotNull(message = "Employee email can not be null")
-    @NotEmpty(message = "Employee email can not be empty")
-    @NotBlank(message = "Employee email can not be blank")
+    @NotBlank(message = "Employee email can not be null/empty/blank")
     @Column(nullable = false, unique = true)
     private String email;
 
-
-    @NotNull(message = "Employee phone number can not be null")
-    @NotEmpty(message = "Employee phone number can not be empty")
-    @NotBlank(message = "Employee phone number can not be blank")
+    @NotBlank(message = "Employee phone number can not be null/empty/blank")
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
